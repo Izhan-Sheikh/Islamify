@@ -467,6 +467,67 @@
                 justify-content: center;
             }
         }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem 0;
+            }
+
+            .navbar {
+                height: auto;
+                padding-bottom: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+                width: 100%;
+            }
+
+            .nav-links a {
+                width: 100%;
+                padding: 0.75rem;
+            }
+
+            .theme-toggle {
+                margin: 1rem 0 0 0;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .feelings-page .hero-title {
+                font-size: 1.8rem;
+            }
+
+            .feelings-page .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .feelings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 0 1rem;
+                margin-top: 120px !important; /* Ensure enough space for expanded navbar */
+            }
+
+            .feeling-card {
+                padding: 1.2rem;
+            }
+            
+            .dua-display {
+                padding: 1rem;
+            }
+            
+            .dua-text {
+                font-size: 1.3rem;
+            }
+        }
     </style>
 </head>
 <body class="feelings-page">
@@ -487,7 +548,7 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container" style="margin-top: 80px; padding-top: 20px;">
         <section class="hero-section">
             <div class="hero-content">
                 <h2 class="hero-title">I'm Feeling...</h2>
