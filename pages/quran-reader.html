@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamify - Quran Reader</title>
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../favicon.svg">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Dark mode styles */
+        .dark-theme {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --content-color: #e0e0e0;
+            --card-bg: #2d2d2d;
+            --border-color: #404040;
+            --icon-color: #3498db;
+            --hover-bg: rgba(52, 152, 219, 0.2);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .dark-theme .navbar {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .dark-theme .nav-container h1 {
+            color: var(--text-color);
+        }
+
+        .dark-theme .nav-links a {
+            color: var(--text-color);
+        }
+
+        .dark-theme .nav-links a:hover {
+            color: var(--icon-color);
+        }
+
+        .dark-theme .hero-section {
+            background: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .dark-theme .hero-title,
+        .dark-theme .hero-subtitle {
+            color: var(--text-color);
+        }
+
+        .dark-theme .section {
+            background-color: var(--bg-color);
+        }
+
+        .dark-theme .reader-controls {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .dark-theme .quran-content {
+            background-color: var(--card-bg) !important;
+            border-color: var(--border-color);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-theme .ayah-container {
+            background-color: var(--card-bg) !important;
+            border: 1px solid var(--border-color);
+        }
+
+        .dark-theme .arabic-text {
+            color: #ffffff;
+            text-shadow: 0 0 1px rgba(255, 255, 255, 0.3);
+        }
+
+        .dark-theme .translation,
+        .dark-theme .transliteration {
+            color: var(--content-color);
+        }
+
+        .dark-theme .surah-selector,
+        .dark-theme .option-toggle,
+        .dark-theme .nav-button {
+            background: var(--card-bg);
+            border-color: var(--icon-color);
+            color: var(--text-color);
+        }
+
+        .dark-theme .surah-selector option {
+            background: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .dark-theme .option-toggle.active {
+            background: var(--icon-color);
+            color: white;
+        }
+
+        .dark-theme .nav-button:hover {
+            background: var(--icon-color);
+            color: white;
+        }
+
+        .dark-theme .theme-toggle {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--icon-color);
+        }
+
+        .dark-theme .theme-toggle:hover {
+            background: var(--icon-color);
+            color: white;
+        }
+
+        /* Hero section styles */
+        .hero-section {
+            min-height: 20vh;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: var(--card-bg);
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--content-color);
+            margin-bottom: 0.5rem;
+            text-align: center;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                min-height: 15vh;
+                padding: 1rem;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+        }
+
+        /* Existing styles */
+        .quran-reader {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .reader-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1rem;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .surah-selector {
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            border: 2px solid var(--icon-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .display-options {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .option-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            background: var(--card-bg);
+            border: 2px solid var(--icon-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .option-toggle.active {
+            background: var(--icon-color);
+            color: white;
+        }
+
+        .quran-content {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid #e0e0e0;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .ayah-container {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+        }
+
+        .ayah-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: var(--icon-color);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .arabic-text {
+            font-size: 2rem;
+            text-align: right;
+            line-height: 1.8;
+            margin: 1rem 0;
+            font-family: 'Amiri', serif;
+            color: var(--text-color);
+        }
+
+        .translation {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 1rem 0;
+            color: var(--content-color);
+        }
+
+        .transliteration {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin: 0.5rem 0;
+            color: var(--content-color);
+            font-style: italic;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .nav-button {
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            border: 2px solid var(--icon-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-button:hover {
+            background: var(--icon-color);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .reader-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .arabic-text {
+                font-size: 1.5rem;
+            }
+
+            .translation {
+                font-size: 1rem;
+            }
+        }
+
+        .loading-indicator {
+            text-align: center;
+            padding: 3rem;
+            color: var(--content-color);
+        }
+
+        .loading-indicator i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--icon-color);
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 3rem;
+            color: #e74c3c;
+        }
+
+        .error-message i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .error-details {
+            font-size: 0.9rem;
+            color: var(--content-color);
+        }
+
+        .surah-info {
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .surah-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--title-color);
+        }
+
+        .surah-info p {
+            color: var(--content-color);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Updated Footer Styles */
+        .site-footer {
+            background: #1e2a38;
+            color: #ffffff;
+            padding: 3rem 0 1rem;
+            margin-top: 3rem;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .site-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #182430;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #ffffff;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            position: relative;
+            padding-bottom: 0.8rem;
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: #4a6484;
+            border-radius: 3px;
+        }
+
+        .footer-section p {
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.85rem;
+            transition: transform 0.3s ease;
+        }
+
+        .footer-section ul li:hover {
+            transform: translateX(5px);
+        }
+
+        .footer-section ul li a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .footer-section ul li a::before {
+            content: '→';
+            margin-right: 8px;
+            font-size: 1.1rem;
+            color: #8ca5c2;
+            opacity: 0;
+            transform: translateX(-5px);
+            transition: all 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #ffffff;
+        }
+
+        .footer-section ul li a:hover::before {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .contact-info li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .contact-info li i {
+            color: #8ca5c2;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .contact-info li:hover i {
+            transform: scale(1.2);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #4a6484;
+            transition: width 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-links {
+                justify-content: center;
+            }
+            
+            .footer-section h3::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .footer-section {
+                text-align: center;
+            }
+            
+            .contact-info li {
+                justify-content: center;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="quran-page">
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1>Islamify</h1>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="pillars.html">Five Pillars</a></li>
+                <li><a href="quran.html">Quran</a></li>
+                <li><a href="prophet.html">Prophet's Life</a></li>
+                <li><a href="feelings.html">I'm Feeling</a></li>
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </button>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="hero-section">
+            <div class="hero-content">
+                <h2 class="hero-title">Quran Reader</h2>
+                <p class="hero-subtitle">Read the Quran with translation and transliteration</p>
+            </div>
+        </div>
+
+        <section class="section">
+            <div class="reader-controls">
+                <select class="surah-selector" id="surahSelector">
+                    <option value="1">1. Al-Fatiha (The Opening)</option>
+                    <option value="2">2. Al-Baqarah (The Cow)</option>
+                    <option value="3">3. Al-Imran (The Family of Imran)</option>
+                    <option value="4">4. An-Nisa (The Women)</option>
+                    <option value="5">5. Al-Ma'idah (The Table Spread)</option>
+                    <option value="6">6. Al-An'am (The Cattle)</option>
+                    <option value="7">7. Al-A'raf (The Heights)</option>
+                    <option value="8">8. Al-Anfal (The Spoils of War)</option>
+                    <option value="9">9. At-Tawbah (The Repentance)</option>
+                    <option value="10">10. Yunus (Jonah)</option>
+                    <option value="11">11. Hud</option>
+                    <option value="12">12. Yusuf (Joseph)</option>
+                    <option value="13">13. Ar-Ra'd (The Thunder)</option>
+                    <option value="14">14. Ibrahim (Abraham)</option>
+                    <option value="15">15. Al-Hijr (The Rocky Tract)</option>
+                    <option value="16">16. An-Nahl (The Bee)</option>
+                    <option value="17">17. Al-Isra (The Night Journey)</option>
+                    <option value="18">18. Al-Kahf (The Cave)</option>
+                    <option value="19">19. Maryam (Mary)</option>
+                    <option value="20">20. Ta-Ha</option>
+                    <option value="21">21. Al-Anbiya (The Prophets)</option>
+                    <option value="22">22. Al-Hajj (The Pilgrimage)</option>
+                    <option value="23">23. Al-Mu'minun (The Believers)</option>
+                    <option value="24">24. An-Nur (The Light)</option>
+                    <option value="25">25. Al-Furqan (The Criterion)</option>
+                    <option value="26">26. Ash-Shu'ara (The Poets)</option>
+                    <option value="27">27. An-Naml (The Ants)</option>
+                    <option value="28">28. Al-Qasas (The Stories)</option>
+                    <option value="29">29. Al-Ankabut (The Spider)</option>
+                    <option value="30">30. Ar-Rum (The Romans)</option>
+                    <option value="31">31. Luqman</option>
+                    <option value="32">32. As-Sajdah (The Prostration)</option>
+                    <option value="33">33. Al-Ahzab (The Combined Forces)</option>
+                    <option value="34">34. Saba (Sheba)</option>
+                    <option value="35">35. Fatir (Originator)</option>
+                    <option value="36">36. Ya-Sin</option>
+                    <option value="37">37. As-Saffat (Those who set the Ranks)</option>
+                    <option value="38">38. Sad</option>
+                    <option value="39">39. Az-Zumar (The Troops)</option>
+                    <option value="40">40. Ghafir (The Forgiver)</option>
+                    <option value="41">41. Fussilat (Explained in Detail)</option>
+                    <option value="42">42. Ash-Shura (The Consultation)</option>
+                    <option value="43">43. Az-Zukhruf (The Gold Adornments)</option>
+                    <option value="44">44. Ad-Dukhan (The Smoke)</option>
+                    <option value="45">45. Al-Jathiyah (The Kneeling)</option>
+                    <option value="46">46. Al-Ahqaf (The Wind-Curved Sandhills)</option>
+                    <option value="47">47. Muhammad</option>
+                    <option value="48">48. Al-Fath (The Victory)</option>
+                    <option value="49">49. Al-Hujurat (The Rooms)</option>
+                    <option value="50">50. Qaf</option>
+                    <option value="51">51. Adh-Dhariyat (The Winnowing Winds)</option>
+                    <option value="52">52. At-Tur (The Mount)</option>
+                    <option value="53">53. An-Najm (The Star)</option>
+                    <option value="54">54. Al-Qamar (The Moon)</option>
+                    <option value="55">55. Ar-Rahman (The Beneficent)</option>
+                    <option value="56">56. Al-Waqi'ah (The Inevitable)</option>
+                    <option value="57">57. Al-Hadid (The Iron)</option>
+                    <option value="58">58. Al-Mujadila (The Pleading Woman)</option>
+                    <option value="59">59. Al-Hashr (The Exile)</option>
+                    <option value="60">60. Al-Mumtahanah (The Examined One)</option>
+                    <option value="61">61. As-Saff (The Ranks)</option>
+                    <option value="62">62. Al-Jumu'ah (Friday)</option>
+                    <option value="63">63. Al-Munafiqun (The Hypocrites)</option>
+                    <option value="64">64. At-Taghabun (Mutual Disillusion)</option>
+                    <option value="65">65. At-Talaq (Divorce)</option>
+                    <option value="66">66. At-Tahrim (The Prohibition)</option>
+                    <option value="67">67. Al-Mulk (The Sovereignty)</option>
+                    <option value="68">68. Al-Qalam (The Pen)</option>
+                    <option value="69">69. Al-Haqqah (The Reality)</option>
+                    <option value="70">70. Al-Ma'arij (The Ascending Stairways)</option>
+                    <option value="71">71. Nuh (Noah)</option>
+                    <option value="72">72. Al-Jinn (The Jinn)</option>
+                    <option value="73">73. Al-Muzzammil (The Enshrouded One)</option>
+                    <option value="74">74. Al-Muddaththir (The Cloaked One)</option>
+                    <option value="75">75. Al-Qiyamah (The Resurrection)</option>
+                    <option value="76">76. Al-Insan (Man)</option>
+                    <option value="77">77. Al-Mursalat (Those Sent Forth)</option>
+                    <option value="78">78. An-Naba (The Tidings)</option>
+                    <option value="79">79. An-Nazi'at (Those who drag forth)</option>
+                    <option value="80">80. Abasa (He Frowned)</option>
+                    <option value="81">81. At-Takwir (The Overthrowing)</option>
+                    <option value="82">82. Al-Infitar (The Cleaving)</option>
+                    <option value="83">83. Al-Mutaffifin (The Defrauders)</option>
+                    <option value="84">84. Al-Inshiqaq (The Splitting Open)</option>
+                    <option value="85">85. Al-Buruj (The Mansions of the Stars)</option>
+                    <option value="86">86. At-Tariq (The Nightcomer)</option>
+                    <option value="87">87. Al-A'la (The Most High)</option>
+                    <option value="88">88. Al-Ghashiyah (The Overwhelming)</option>
+                    <option value="89">89. Al-Fajr (The Dawn)</option>
+                    <option value="90">90. Al-Balad (The City)</option>
+                    <option value="91">91. Ash-Shams (The Sun)</option>
+                    <option value="92">92. Al-Lail (The Night)</option>
+                    <option value="93">93. Ad-Duha (The Morning Hours)</option>
+                    <option value="94">94. Ash-Sharh (The Relief)</option>
+                    <option value="95">95. At-Tin (The Fig)</option>
+                    <option value="96">96. Al-Alaq (The Clot)</option>
+                    <option value="97">97. Al-Qadr (The Power)</option>
+                    <option value="98">98. Al-Bayyinah (The Clear Proof)</option>
+                    <option value="99">99. Az-Zalzalah (The Earthquake)</option>
+                    <option value="100">100. Al-Adiyat (The Coursers)</option>
+                    <option value="101">101. Al-Qari'ah (The Calamity)</option>
+                    <option value="102">102. At-Takathur (The Rivalry in world increase)</option>
+                    <option value="103">103. Al-Asr (The Declining Day)</option>
+                    <option value="104">104. Al-Humazah (The Traducer)</option>
+                    <option value="105">105. Al-Fil (The Elephant)</option>
+                    <option value="106">106. Quraysh</option>
+                    <option value="107">107. Al-Ma'un (Small Kindnesses)</option>
+                    <option value="108">108. Al-Kawthar (Abundance)</option>
+                    <option value="109">109. Al-Kafirun (The Disbelievers)</option>
+                    <option value="110">110. An-Nasr (The Divine Support)</option>
+                    <option value="111">111. Al-Masad (The Palm Fiber)</option>
+                    <option value="112">112. Al-Ikhlas (The Sincerity)</option>
+                    <option value="113">113. Al-Falaq (The Daybreak)</option>
+                    <option value="114">114. An-Nas (Mankind)</option>
+                </select>
+                <div class="display-options">
+                    <div class="option-toggle" id="translationToggle">
+                        <i class="fas fa-language"></i>
+                        <span>Translation</span>
+                    </div>
+                    <div class="option-toggle" id="transliterationToggle">
+                        <i class="fas fa-font"></i>
+                        <span>Transliteration</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quran-content" id="quranContent">
+                <!-- Content will be loaded here -->
+                <div class="loading-indicator">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading Quran content...</p>
+                </div>
+            </div>
+
+            <div class="navigation-buttons">
+                <button class="nav-button" id="prevAyah">
+                    <i class="fas fa-arrow-left"></i>
+                    Previous
+                </button>
+                <button class="nav-button" id="nextAyah">
+                    Next
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        function toggleTheme() {
+            const html = document.documentElement;
+            const body = document.body;
+            const themeToggle = document.querySelector('.theme-toggle');
+            const icon = themeToggle.querySelector('i');
+            const text = themeToggle.querySelector('span');
+            
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.removeAttribute('data-theme');
+                body.classList.remove('dark-theme');
+                localStorage.setItem('theme', 'light');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                text.textContent = 'Dark Mode';
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                text.textContent = 'Light Mode';
+            }
+        }
+
+        // Check for saved theme preference
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.body.classList.add('dark-theme');
+                const themeToggle = document.querySelector('.theme-toggle');
+                const icon = themeToggle.querySelector('i');
+                const text = themeToggle.querySelector('span');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                text.textContent = 'Light Mode';
+            }
+        });
+
+        // Add this to fetch the complete Quran data from an API
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get elements
+            const quranContent = document.getElementById('quranContent');
+            const surahSelector = document.getElementById('surahSelector');
+            const prevAyahBtn = document.getElementById('prevAyah');
+            const nextAyahBtn = document.getElementById('nextAyah');
+            
+            // State variables
+            let allQuranData = {};
+            let currentSurah = 1;
+            let currentAyah = 1;
+            let isLoading = true;
+            
+            // API endpoints
+            const QURAN_API = 'https://api.alquran.cloud/v1/quran/ar.alafasy';
+            const TRANSLATION_API = 'https://api.alquran.cloud/v1/quran/en.asad';
+            
+            // Show loading message
+            quranContent.innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 1rem; color: var(--icon-color);"></i>
+                    <p>Loading the complete Quran. Please wait...</p>
+                </div>
+            `;
+            
+            // Fetch Quran data
+            Promise.all([
+                fetch(QURAN_API).then(response => response.json()),
+                fetch(TRANSLATION_API).then(response => response.json())
+            ])
+            .then(([arabicData, translationData]) => {
+                // Process Quran data
+                allQuranData = processQuranData(arabicData.data, translationData.data);
+                isLoading = false;
+                
+                // Update the selector with all 114 Surahs if needed
+                if (surahSelector.options.length < 114) {
+                    updateSurahSelector(allQuranData);
+                }
+                
+                // Display the first Surah
+                displaySurah(currentSurah, currentAyah);
+            })
+            .catch(error => {
+                console.error('Error fetching Quran data:', error);
+                quranContent.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: #e74c3c;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <p>Error loading Quran data. Please try again later.</p>
+                        <p style="font-size: 0.9rem; margin-top: 1rem;">${error.message}</p>
+                    </div>
+                `;
+            });
+            
+            // Process the fetched Quran data
+            function processQuranData(arabicQuran, translationQuran) {
+                const processedData = {};
+                
+                arabicQuran.surahs.forEach((surah, index) => {
+                    const translationSurah = translationQuran.surahs[index];
+                    
+                    processedData[surah.number] = {
+                        name: surah.name,
+                        englishName: surah.englishName,
+                        englishNameTranslation: surah.englishNameTranslation,
+                        numberOfAyahs: surah.ayahs.length,
+                        ayahs: surah.ayahs.map((ayah, ayahIndex) => ({
+                            number: ayah.numberInSurah,
+                            arabic: ayah.text,
+                            translation: translationSurah.ayahs[ayahIndex].text
+                        }))
+                    };
+                });
+                
+                return processedData;
+            }
+            
+            // Update Surah selector with all 114 Surahs
+            function updateSurahSelector(data) {
+                surahSelector.innerHTML = '';
+                
+                for (let i = 1; i <= 114; i++) {
+                    const surah = data[i];
+                    const option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = `${i}. ${surah.englishName} (${surah.englishNameTranslation})`;
+                    surahSelector.appendChild(option);
+                }
+            }
+            
+            // Display Surah and Ayah
+            function displaySurah(surahNum, ayahNum) {
+                if (isLoading || !allQuranData[surahNum]) return;
+                
+                const surah = allQuranData[surahNum];
+                const ayahs = surah.ayahs;
+                
+                let ayahContent = '';
+                
+                // Display current Ayah if specified
+                if (ayahNum > 0 && ayahNum <= ayahs.length) {
+                    const ayah = ayahs[ayahNum - 1];
+                    ayahContent = `
+                        <div class="ayah-container">
+                            <span class="ayah-number">${ayah.number}</span>
+                            <div class="arabic-text">${ayah.arabic}</div>
+                            <div class="translation">${ayah.translation}</div>
+                        </div>
+                    `;
+                } 
+                // Otherwise display all Ayahs in the Surah
+                else {
+                    ayahContent = ayahs.map(ayah => `
+                        <div class="ayah-container">
+                            <span class="ayah-number">${ayah.number}</span>
+                            <div class="arabic-text">${ayah.arabic}</div>
+                            <div class="translation">${ayah.translation}</div>
+                        </div>
+                    `).join('');
+                }
+                
+                quranContent.innerHTML = `
+                    <div class="surah-header">
+                        <h2>${surah.englishName} (${surah.englishNameTranslation})</h2>
+                        <p>Surah ${surahNum} • ${surah.numberOfAyahs} Ayahs</p>
+                    </div>
+                    ${ayahContent}
+                `;
+                
+                // Update navigation buttons state
+                updateNavigationState(surahNum, ayahNum);
+            }
+            
+            // Update navigation buttons state
+            function updateNavigationState(surahNum, ayahNum) {
+                // Disable prev button if at first Ayah of first Surah
+                prevAyahBtn.disabled = (surahNum === 1 && ayahNum === 1);
+                
+                // Disable next button if at last Ayah of last Surah
+                const isLastSurah = surahNum === 114;
+                const isLastAyah = ayahNum === allQuranData[surahNum]?.numberOfAyahs;
+                nextAyahBtn.disabled = (isLastSurah && isLastAyah);
+            }
+            
+            // Event Listeners
+            surahSelector.addEventListener('change', function() {
+                currentSurah = parseInt(this.value);
+                currentAyah = 1;
+                displaySurah(currentSurah, currentAyah);
+            });
+            
+            prevAyahBtn.addEventListener('click', function() {
+                if (currentAyah > 1) {
+                    currentAyah--;
+                } else if (currentSurah > 1) {
+                    currentSurah--;
+                    currentAyah = allQuranData[currentSurah].numberOfAyahs;
+                }
+                displaySurah(currentSurah, currentAyah);
+            });
+            
+            nextAyahBtn.addEventListener('click', function() {
+                if (currentAyah < allQuranData[currentSurah].numberOfAyahs) {
+                    currentAyah++;
+                } else if (currentSurah < 114) {
+                    currentSurah++;
+                    currentAyah = 1;
+                }
+                displaySurah(currentSurah, currentAyah);
+            });
+            
+            // Add CSS styles
+            const styleElement = document.createElement('style');
+            styleElement.textContent = `
+                .surah-header {
+                    text-align: center;
+                    margin-bottom: 2rem;
+                }
+                
+                .surah-header h2 {
+                    color: var(--title-color);
+                    font-size: 1.8rem;
+                    margin-bottom: 0.5rem;
+                }
+                
+                .surah-header p {
+                    color: var(--content-color);
+                }
+                
+                .ayah-container {
+                    margin-bottom: 2.5rem;
+                    padding: 1.5rem;
+                    border-radius: 10px;
+                    background-color: var(--card-bg);
+                    border: 1px solid rgba(0, 0, 0, 0.1);
+                    transition: all 0.3s ease;
+                }
+                
+                .ayah-container:hover {
+                    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                    transform: translateY(-2px);
+                }
+                
+                .dark-theme .ayah-container {
+                    border-color: rgba(255, 255, 255, 0.1);
+                }
+                
+                .dark-theme .ayah-container:hover {
+                    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+                }
+                
+                .ayah-number {
+                    display: inline-block;
+                    width: 35px;
+                    height: 35px;
+                    background-color: var(--icon-color);
+                    color: white;
+                    border-radius: 50%;
+                    text-align: center;
+                    line-height: 35px;
+                    margin-bottom: 1rem;
+                    font-weight: bold;
+                }
+                
+                .arabic-text {
+                    font-size: 2rem;
+                    line-height: 2;
+                    text-align: right;
+                    margin: 1.5rem 0;
+                    direction: rtl;
+                    font-family: 'Amiri', 'Traditional Arabic', serif;
+                    color: var(--text-color);
+                }
+                
+                .translation {
+                    color: var(--content-color);
+                    line-height: 1.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .arabic-text {
+                        font-size: 1.6rem;
+                    }
+                }
+            `;
+            document.head.appendChild(styleElement);
+        });
+    </script>
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>Islamify</h3>
+                    <p>Your gateway to Islamic knowledge and spiritual growth. Providing authentic resources for Muslims worldwide.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="pillars.html">Five Pillars</a></li>
+                        <li><a href="quran.html">Quran</a></li>
+                        <li><a href="prophet.html">Prophet's Life</a></li>
+                        <li><a href="feelings.html">I'm Feeling</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> izhan.sheikh.18@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Karachi , North Karachi</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; <span id="year">2023</span> Islamify. All rights reserved.</p>
+                <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 

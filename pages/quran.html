@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamify - Holy Quran</title>
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../favicon.svg">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .quran-page .hero-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 20vh;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--hero-bg) 0%, var(--card-bg) 100%);
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .quran-page .hero-content {
+            text-align: center;
+            max-width: 800px;
+            z-index: 2;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .quran-page .hero-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            color: var(--title-color);
+            line-height: 1.2;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .quran-page .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--content-color);
+            margin-bottom: 0;
+            line-height: 1.5;
+            text-align: center;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .quran-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .quran-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .quran-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            background: var(--hover-bg);
+        }
+
+        .quran-card i {
+            font-size: 2.5rem;
+            color: var(--icon-color);
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .quran-card:hover i {
+            transform: scale(1.1);
+        }
+
+        .quran-card h3 {
+            font-size: 1.5rem;
+            color: var(--title-color);
+            margin-bottom: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .quran-card p {
+            color: var(--content-color);
+            line-height: 1.6;
+            transition: color 0.3s ease;
+        }
+
+        .theme-toggle {
+            background: var(--theme-toggle-bg);
+            border: 2px solid var(--navbar-text);
+            color: var(--navbar-text);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-left: 1rem;
+            position: relative;
+            overflow: hidden;
+            font-weight: 500;
+        }
+
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--navbar-text);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+
+        .theme-toggle:hover::before {
+            opacity: 0.1;
+        }
+
+        .theme-toggle i {
+            position: relative;
+            z-index: 1;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .theme-toggle:hover i {
+            transform: scale(1.1);
+        }
+
+        .theme-toggle span {
+            position: relative;
+            z-index: 1;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .theme-toggle:hover span {
+            transform: translateX(2px);
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.95);
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+                width: 100%;
+            }
+
+            .nav-links a {
+                width: 100%;
+                padding: 0.75rem;
+            }
+
+            .theme-toggle {
+                margin: 1rem 0 0 0;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Dark mode styles */
+        .dark-theme {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --content-color: #e0e0e0;
+            --card-bg: #2d2d2d;
+            --border-color: #404040;
+            --icon-color: #3498db;
+            --hover-bg: rgba(52, 152, 219, 0.2);
+            --navbar-bg: #2d2d2d;
+            --navbar-text: #ffffff;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .dark-theme .navbar {
+            background-color: var(--navbar-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .dark-theme .nav-container h1,
+        .dark-theme .nav-links a {
+            color: var(--navbar-text);
+        }
+
+        .dark-theme .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-theme .nav-links a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-theme .nav-links a::after {
+            background-color: var(--navbar-text);
+        }
+
+        .dark-theme .theme-toggle {
+            background: var(--theme-toggle-bg);
+            color: var(--navbar-text);
+            border: 2px solid var(--navbar-text);
+        }
+
+        .dark-theme .theme-toggle:hover::before {
+            opacity: 0.1;
+        }
+
+        .dark-theme .hero-section {
+            background: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .dark-theme .hero-title,
+        .dark-theme .hero-subtitle {
+            color: var(--text-color);
+        }
+
+        .dark-theme .section {
+            background-color: var(--bg-color);
+        }
+
+        .dark-theme .quran-card {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+        }
+
+        .dark-theme .quran-card:hover {
+            background: var(--hover-bg);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-theme .surah-card {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+        }
+
+        .dark-theme .surah-card:hover {
+            background: var(--hover-bg);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-theme .surah-number {
+            background: var(--icon-color);
+            color: white;
+        }
+
+        .dark-theme .surah-info h3 {
+            color: var(--text-color);
+        }
+
+        .dark-theme .surah-info p {
+            color: var(--content-color);
+        }
+
+        .dark-theme .section-title {
+            color: var(--text-color);
+        }
+
+        .featured-surah {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .featured-surah:hover {
+            transform: translateY(-5px);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            margin: 2rem auto;
+            padding: 2rem;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 15px;
+            position: relative;
+            color: var(--text-color);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .surah-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .surah-header h2 {
+            color: var(--title-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .surah-header p {
+            color: var(--content-color);
+        }
+
+        .surah-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .arabic-text {
+            font-size: 1.5rem;
+            line-height: 2.5;
+            text-align: right;
+            direction: rtl;
+            margin-bottom: 2rem;
+        }
+
+        .translation {
+            line-height: 1.8;
+            color: var(--content-color);
+        }
+
+        .arabic {
+            font-family: 'Traditional Arabic', 'Arial', sans-serif;
+            font-size: 1.2em;
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background-color: var(--navbar-bg);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            color: var(--navbar-text);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            color: var(--navbar-text);
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            color: var(--navbar-text);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background-color: var(--navbar-text);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        /* Updated Footer Styles */
+        .site-footer {
+            background: #1e2a38;
+            color: #ffffff;
+            padding: 3rem 0 1rem;
+            margin-top: 3rem;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .site-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #182430;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #ffffff;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            position: relative;
+            padding-bottom: 0.8rem;
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: #4a6484;
+            border-radius: 3px;
+        }
+
+        .footer-section p {
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.85rem;
+            transition: transform 0.3s ease;
+        }
+
+        .footer-section ul li:hover {
+            transform: translateX(5px);
+        }
+
+        .footer-section ul li a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .footer-section ul li a::before {
+            content: '→';
+            margin-right: 8px;
+            font-size: 1.1rem;
+            color: #8ca5c2;
+            opacity: 0;
+            transform: translateX(-5px);
+            transition: all 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #ffffff;
+        }
+
+        .footer-section ul li a:hover::before {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .contact-info li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .contact-info li i {
+            color: #8ca5c2;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .contact-info li:hover i {
+            transform: scale(1.2);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #4a6484;
+            transition: width 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-links {
+                justify-content: center;
+            }
+            
+            .footer-section h3::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .footer-section {
+                text-align: center;
+            }
+            
+            .contact-info li {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body class="quran-page">
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1>Islamify</h1>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="pillars.html">Five Pillars</a></li>
+                <li><a href="quran.html">Quran</a></li>
+                <li><a href="prophet.html">Prophet's Life</a></li>
+                <li><a href="feelings.html">I'm Feeling</a></li>
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </button>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h2 class="hero-title">Holy Quran</h2>
+                <p class="hero-subtitle">The divine revelation and guidance for mankind</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="quran-grid">
+                <div class="quran-card" onclick="location.href='quran-reader.html'">
+                    <i class="fas fa-book-quran"></i>
+                    <h3>Quran Reader</h3>
+                    <p>Read the Quran with Arabic text, translation, and transliteration</p>
+                </div>
+                <div class="quran-card" onclick="location.href='daily-ayah.html'">
+                    <i class="fas fa-book-open"></i>
+                    <h3>Daily Verse</h3>
+                    <p>Get inspired with a new verse from the Quran every day</p>
+                </div>
+                <div class="quran-card" onclick="location.href='quran-stories.html'">
+                    <i class="fas fa-book"></i>
+                    <h3>Quran Stories</h3>
+                    <p>Discover the timeless stories from the Quran</p>
+                </div>
+                <div class="quran-card" onclick="location.href='quran-search.html'">
+                    <i class="fas fa-search"></i>
+                    <h3>Search Quran</h3>
+                    <p>Search for specific verses or topics in the Quran</p>
+                </div>
+                <div class="quran-card" onclick="location.href='quran-tafsir.html'">
+                    <i class="fas fa-book-open"></i>
+                    <h3>Tafsir Library</h3>
+                    <p>Access detailed explanations and interpretations of Quranic verses</p>
+                </div>
+                <div class="quran-card" onclick="location.href='quran-quiz.html'">
+                    <i class="fas fa-question-circle"></i>
+                    <h3>Quran Quiz</h3>
+                    <p>Test your knowledge with interactive quizzes and challenges</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="featured-content">
+                <h2 class="section-title">Featured Surahs</h2>
+                <div class="surah-grid">
+                    <div class="surah-card" onclick="openSurah(1)">
+                        <div class="surah-number">1</div>
+                        <div class="surah-info">
+                            <h3>Al-Fatiha</h3>
+                            <p>The Opening</p>
+                        </div>
+                    </div>
+                    <div class="surah-card" onclick="openSurah(2)">
+                        <div class="surah-number">2</div>
+                        <div class="surah-info">
+                            <h3>Al-Baqarah</h3>
+                            <p>The Cow</p>
+                        </div>
+                    </div>
+                    <div class="surah-card" onclick="openSurah(3)">
+                        <div class="surah-number">36</div>
+                        <div class="surah-info">
+                            <h3>Ya-Sin</h3>
+                            <p>The Heart of the Quran</p>
+                        </div>
+                    </div>
+                    <div class="surah-card" onclick="openSurah(4)">
+                        <div class="surah-number">67</div>
+                        <div class="surah-info">
+                            <h3>Al-Mulk</h3>
+                            <p>The Sovereignty</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <style>
+            .surah-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.5rem;
+                margin-top: 1.5rem;
+            }
+
+            .surah-card {
+                background: var(--card-bg);
+                border-radius: 15px;
+                padding: 1.5rem;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                cursor: pointer;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                border: 1px solid var(--border-color);
+            }
+
+            .surah-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .surah-number {
+                background: var(--icon-color);
+                color: white;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                font-size: 1.2rem;
+            }
+
+            .surah-info h3 {
+                color: var(--title-color);
+                margin-bottom: 0.25rem;
+            }
+
+            .surah-info p {
+                color: var(--content-color);
+                font-size: 0.9rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+                color: var(--title-color);
+                margin-bottom: 1.5rem;
+                text-align: center;
+            }
+
+            @media (max-width: 768px) {
+                .surah-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+    </div>
+
+    <script>
+        // Check for saved theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            const themeToggle = document.querySelector('.theme-toggle');
+            const icon = themeToggle.querySelector('i');
+            const text = themeToggle.querySelector('span');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+            text.textContent = 'Light Mode';
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            
+            const themeToggle = document.querySelector('.theme-toggle');
+            const icon = themeToggle.querySelector('i');
+            const text = themeToggle.querySelector('span');
+            
+            if (newTheme === 'dark') {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                text.textContent = 'Light Mode';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                text.textContent = 'Dark Mode';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Featured Surahs Data
+        const featuredSurahs = [
+            {
+                id: 1,
+                title: "Surah Al-Fatiha",
+                arabicTitle: "الفاتحة",
+                description: "The Opening Chapter of the Quran",
+                verses: 7,
+                type: "Meccan",
+                number: 1
+            },
+            {
+                id: 2,
+                title: "Surah Al-Baqarah",
+                arabicTitle: "البقرة",
+                description: "The Cow - The Longest Chapter",
+                verses: 286,
+                type: "Medinan",
+                number: 2
+            },
+            {
+                id: 3,
+                title: "Surah Yasin",
+                arabicTitle: "يس",
+                description: "The Heart of the Quran",
+                verses: 83,
+                type: "Meccan",
+                number: 36
+            },
+            {
+                id: 4,
+                title: "Surah Al-Mulk",
+                arabicTitle: "الملك",
+                description: "The Sovereignty",
+                verses: 30,
+                type: "Meccan",
+                number: 67
+            }
+        ];
+
+        // API Configuration
+        const API_BASE_URL = 'https://api.quran.com/api/v4';
+        let currentSurah = null;
+        let currentPage = 1;
+        const versesPerPage = 10;
+
+        // Open surah
+        async function openSurah(id) {
+            const surah = featuredSurahs.find(s => s.id === id);
+            if (!surah) return;
+
+            currentSurah = surah;
+            currentPage = 1;
+
+            // Remove any existing modal and its event listeners
+            const existingModal = document.querySelector('.modal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+
+            // Create modal structure
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <span class="close-modal">&times;</span>
+                    <div class="surah-header">
+                        <h2>${surah.title} <span class="arabic">${surah.arabicTitle}</span></h2>
+                        <p>${surah.description}</p>
+                        <div class="surah-meta">
+                            <span>${surah.verses} Verses</span>
+                            <span>${surah.type}</span>
+                        </div>
+                    </div>
+                    <div class="surah-content">
+                        <div class="loading">Loading verses...</div>
+                        <div class="verses-container"></div>
+                        <div class="pagination">
+                            <button class="prev-btn" onclick="changePage(-1)">Previous</button>
+                            <span class="page-info">Page ${currentPage}</span>
+                            <button class="next-btn" onclick="changePage(1)">Next</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Add modal to body
+            document.body.appendChild(modal);
+            modal.style.display = 'block';
+
+            // Load verses
+            await loadVerses(surah.number);
+
+            // Close modal handlers
+            const closeBtn = modal.querySelector('.close-modal');
+            const closeModal = () => {
+                modal.remove();
+                document.removeEventListener('click', handleOutsideClick);
+            };
+
+            const handleOutsideClick = (event) => {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            };
+
+            closeBtn.onclick = closeModal;
+            document.addEventListener('click', handleOutsideClick);
+        }
+
+        // Load verses
+        async function loadVerses(surahNumber) {
+            try {
+                const start = (currentPage - 1) * versesPerPage + 1;
+                const end = Math.min(start + versesPerPage - 1, currentSurah.verses);
+
+                const [arabicResponse, translationResponse] = await Promise.all([
+                    fetch(`${API_BASE_URL}/verses/by_chapter/${surahNumber}?language=ar&words=true&page=${currentPage}&per_page=${versesPerPage}&fields=text_uthmani,verse_number`),
+                    fetch(`${API_BASE_URL}/verses/by_chapter/${surahNumber}?language=en&words=true&page=${currentPage}&per_page=${versesPerPage}&fields=text,verse_number`)
+                ]);
+
+                if (!arabicResponse.ok || !translationResponse.ok) {
+                    throw new Error('Failed to fetch verses');
+                }
+
+                const [arabicData, translationData] = await Promise.all([
+                    arabicResponse.json(),
+                    translationResponse.json()
+                ]);
+
+                const versesContainer = document.querySelector('.verses-container');
+                const loading = document.querySelector('.loading');
+                
+                if (loading) loading.remove();
+
+                if (!arabicData.verses || !translationData.verses) {
+                    throw new Error('Invalid response format');
+                }
+
+                versesContainer.innerHTML = arabicData.verses.map((verse, index) => {
+                    const translation = translationData.verses[index];
+                    const verseNumber = verse.verse_number || (start + index);
+                    return `
+                        <div class="verse">
+                            <div class="verse-number">${verseNumber}</div>
+                            <div class="verse-content">
+                                <div class="arabic-text">${verse.text_uthmani || verse.text || ''}</div>
+                                <div class="translation">${translation.text || ''}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                // Update pagination buttons
+                updatePaginationButtons();
+            } catch (error) {
+                console.error('Error loading verses:', error);
+                const versesContainer = document.querySelector('.verses-container');
+                versesContainer.innerHTML = `
+                    <div class="error">
+                        <p>Error loading verses. Please try again later.</p>
+                        <p>Error details: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Change page
+        async function changePage(delta) {
+            const newPage = currentPage + delta;
+            if (newPage < 1 || newPage > Math.ceil(currentSurah.verses / versesPerPage)) return;
+
+            currentPage = newPage;
+            await loadVerses(currentSurah.number);
+            document.querySelector('.page-info').textContent = `Page ${currentPage}`;
+        }
+
+        // Update pagination buttons
+        function updatePaginationButtons() {
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+            const totalPages = Math.ceil(currentSurah.verses / versesPerPage);
+
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+        }
+
+        // Add styles for new elements
+        const additionalStyles = `
+            .loading {
+                text-align: center;
+                padding: 2rem;
+                color: var(--content-color);
+            }
+
+            .verse {
+                margin-bottom: 2rem;
+                padding: 1rem;
+                border-radius: 10px;
+                background: var(--card-bg);
+                border: 1px solid var(--border-color);
+            }
+
+            .verse-number {
+                display: inline-block;
+                width: 30px;
+                height: 30px;
+                background: var(--icon-color);
+                color: white;
+                border-radius: 50%;
+                text-align: center;
+                line-height: 30px;
+                margin-right: 1rem;
+            }
+
+            .verse-content {
+                margin-top: 1rem;
+            }
+
+            .pagination {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 1rem;
+                margin-top: 2rem;
+            }
+
+            .pagination button {
+                padding: 0.5rem 1rem;
+                background: var(--icon-color);
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            .pagination button:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
+            .page-info {
+                color: var(--content-color);
+            }
+
+            .error {
+                color: #e74c3c;
+                text-align: center;
+                padding: 2rem;
+            }
+        `;
+
+        const styleSheet = document.createElement("style");
+        styleSheet.textContent = additionalStyles;
+        document.head.appendChild(styleSheet);
+    </script>
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>Islamify</h3>
+                    <p>Your gateway to Islamic knowledge and spiritual growth. Providing authentic resources for Muslims worldwide.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="pillars.html">Five Pillars</a></li>
+                        <li><a href="quran.html">Quran</a></li>
+                        <li><a href="prophet.html">Prophet's Life</a></li>
+                        <li><a href="feelings.html">I'm Feeling</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> izhan.sheikh.18@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Karachi , North Karachi</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; <span id="year">2023</span> Islamify. All rights reserved.</p>
+                <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 

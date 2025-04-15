@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamify - Prophet's Life</title>
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../favicon.svg">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Fix for footer positioning */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .container {
+            flex: 1 0 auto;
+        }
+        
+        .site-footer {
+            flex-shrink: 0;
+            margin-top: auto;
+        }
+        
+        .prophet-page {
+            padding: 2rem 0;
+        }
+
+        .prophet-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .prophet-title {
+            font-size: 2.5rem;
+            color: var(--title-color);
+            margin-bottom: 1rem;
+        }
+
+        .prophet-subtitle {
+            font-size: 1.2rem;
+            color: var(--content-color);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .prophet-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .prophet-section {
+            margin-bottom: 2rem;
+        }
+
+        .prophet-section h3 {
+            color: var(--title-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .prophet-section p {
+            color: var(--content-color);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .verse-container {
+            background: var(--bg-color);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+        }
+
+        .verse-arabic {
+            font-size: 1.5rem;
+            text-align: right;
+            direction: rtl;
+            margin-bottom: 1rem;
+            line-height: 2;
+        }
+
+        .verse-translation {
+            color: var(--content-color);
+            line-height: 1.6;
+        }
+
+        .verse-number {
+            color: var(--icon-color);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: var(--icon-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            width: 50%;
+            padding: 0 2rem;
+        }
+
+        .timeline-item:nth-child(odd) {
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            margin-right: auto;
+            text-align: left;
+        }
+
+        .timeline-content {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-year {
+            color: var(--icon-color);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .prophet-title {
+                font-size: 2rem;
+            }
+
+            .prophet-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .prophet-content {
+                padding: 1.5rem;
+            }
+
+            .verse-arabic {
+                font-size: 1.3rem;
+            }
+
+            .timeline::before {
+                left: 0;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 2rem;
+            }
+
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                margin: 0;
+                text-align: left;
+            }
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: var(--theme-toggle-bg);
+            border: 2px solid var(--navbar-text);
+            color: var(--navbar-text);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-left: 1rem;
+            position: relative;
+            overflow: hidden;
+            font-weight: 500;
+        }
+
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--navbar-text);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+
+        .theme-toggle:hover::before {
+            opacity: 0.1;
+        }
+
+        .theme-toggle i {
+            position: relative;
+            z-index: 1;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .theme-toggle:hover i {
+            transform: scale(1.1);
+        }
+
+        .theme-toggle span {
+            position: relative;
+            z-index: 1;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .theme-toggle:hover span {
+            transform: translateX(2px);
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.95);
+        }
+
+        /* Dark Theme Toggle Styles */
+        .dark-theme .theme-toggle {
+            background: var(--theme-toggle-bg);
+            color: var(--navbar-text);
+            border: 2px solid var(--navbar-text);
+        }
+
+        .dark-theme .theme-toggle:hover::before {
+            opacity: 0.1;
+        }
+
+        /* Updated Footer Styles */
+        .site-footer {
+            background: #1e2a38;
+            color: #ffffff;
+            padding: 3rem 0 1rem;
+            margin-top: 3rem;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .site-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #182430;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #ffffff;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            position: relative;
+            padding-bottom: 0.8rem;
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: #4a6484;
+            border-radius: 3px;
+        }
+
+        .footer-section p {
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.85rem;
+            transition: transform 0.3s ease;
+        }
+
+        .footer-section ul li:hover {
+            transform: translateX(5px);
+        }
+
+        .footer-section ul li a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .footer-section ul li a::before {
+            content: '→';
+            margin-right: 8px;
+            font-size: 1.1rem;
+            color: #8ca5c2;
+            opacity: 0;
+            transform: translateX(-5px);
+            transition: all 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #ffffff;
+        }
+
+        .footer-section ul li a:hover::before {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .contact-info li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .contact-info li i {
+            color: #8ca5c2;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .contact-info li:hover i {
+            transform: scale(1.2);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #4a6484;
+            transition: width 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-links {
+                justify-content: center;
+            }
+            
+            .footer-section h3::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .footer-section {
+                text-align: center;
+            }
+            
+            .contact-info li {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body class="prophet-page">
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1>Islamify</h1>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="pillars.html">Five Pillars</a></li>
+                <li><a href="quran.html">Quran</a></li>
+                <li><a href="prophet.html" class="active">Prophet's Life</a></li>
+                <li><a href="feelings.html">I'm Feeling</a></li>
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </button>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="prophet-header">
+            <h1 class="prophet-title">The Life of Prophet Muhammad (PBUH)</h1>
+            <p class="prophet-subtitle">A mercy to all mankind</p>
+        </div>
+
+        <div class="prophet-content">
+            <div class="prophet-section">
+                <h3>Introduction</h3>
+                <p>Prophet Muhammad (peace be upon him) was born in Makkah in the year 570 CE. He was the final messenger sent by Allah to guide humanity, completing the long line of prophets that began with Adam.</p>
+                
+                <div class="verse-container">
+                    <div class="verse-number">Surah Al-Anbiya, Verse 107</div>
+                    <div class="verse-arabic">وَمَا أَرْسَلْنَاكَ إِلَّا رَحْمَةً لِّلْعَالَمِينَ</div>
+                    <div class="verse-translation">"And We have not sent you, [O Muhammad], except as a mercy to the worlds."</div>
+                </div>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">570 CE</div>
+                        <h3>Birth and Early Life</h3>
+                        <p>Born in Makkah on the 12th of Rabi' al-Awwal, in the Year of the Elephant. His father Abdullah passed away before his birth, and his mother Aminah died when he was six. Raised by his grandfather Abdul-Muttalib and later by his uncle Abu Talib. Known for his honesty and trustworthiness, earning the title "Al-Amin" (The Trustworthy).</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">595 CE</div>
+                        <h3>Marriage to Khadijah</h3>
+                        <p>Married Khadijah bint Khuwaylid, a wealthy and respected businesswoman. Their marriage lasted 25 years until her death. She was the first to believe in his prophethood and provided him with unwavering support.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">610 CE</div>
+                        <h3>First Revelation</h3>
+                        <p>Received the first revelation in the Cave of Hira during the month of Ramadan. The first verses revealed were from Surah Al-Alaq:</p>
+                        <div class="verse-container">
+                            <div class="verse-number">Surah Al-Alaq, Verse 1-5</div>
+                            <div class="verse-arabic">اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ * خَلَقَ الْإِنسَانَ مِنْ عَلَقٍ * اقْرَأْ وَرَبُّكَ الْأَكْرَمُ * الَّذِي عَلَّمَ بِالْقَلَمِ * عَلَّمَ الْإِنسَانَ مَا لَمْ يَعْلَمْ</div>
+                            <div class="verse-translation">"Read in the name of your Lord who created * Created man from a clinging substance * Read, and your Lord is the most Generous * Who taught by the pen * Taught man that which he knew not."</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">613 CE</div>
+                        <h3>Public Declaration</h3>
+                        <p>Began publicly preaching Islam after three years of private invitation. Faced increasing opposition from the Quraysh leaders who saw Islam as a threat to their power and traditions.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">615 CE</div>
+                        <h3>Migration to Abyssinia</h3>
+                        <p>Some of the early Muslims migrated to Abyssinia (modern-day Ethiopia) to escape persecution. The Christian king, Negus, granted them protection after hearing the Quran's description of Jesus.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">619 CE</div>
+                        <h3>Year of Sorrow</h3>
+                        <p>Lost his beloved wife Khadijah and his uncle Abu Talib, who had been his protector. This year is known as the "Year of Sorrow" due to these significant losses.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">620 CE</div>
+                        <h3>Night Journey and Ascension</h3>
+                        <p>Experienced the miraculous Night Journey (Isra) from Makkah to Jerusalem and the Ascension (Mi'raj) to the heavens. This event is mentioned in the Quran:</p>
+                        <div class="verse-container">
+                            <div class="verse-number">Surah Al-Isra, Verse 1</div>
+                            <div class="verse-arabic">سُبْحَانَ الَّذِي أَسْرَىٰ بِعَبْدِهِ لَيْلًا مِّنَ الْمَسْجِدِ الْحَرَامِ إِلَى الْمَسْجِدِ الْأَقْصَى الَّذِي بَارَكْنَا حَوْلَهُ لِنُرِيَهُ مِنْ آيَاتِنَا ۚ إِنَّهُ هُوَ السَّمِيعُ الْبَصِيرُ</div>
+                            <div class="verse-translation">"Exalted is He who took His Servant by night from al-Masjid al-Haram to al-Masjid al-Aqsa, whose surroundings We have blessed, to show him of Our signs. Indeed, He is the Hearing, the Seeing."</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">622 CE</div>
+                        <h3>Migration to Madinah</h3>
+                        <p>Faced increasing persecution in Makkah, leading to the Hijrah (migration) to Madinah. This event marks the beginning of the Islamic calendar. Established the first Islamic state and built the first mosque in Madinah.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">624 CE</div>
+                        <h3>Battle of Badr</h3>
+                        <p>The first major battle between the Muslims and the Quraysh. Despite being outnumbered, the Muslims achieved a decisive victory. This battle is mentioned in the Quran:</p>
+                        <div class="verse-container">
+                            <div class="verse-number">Surah Al-Imran, Verse 123</div>
+                            <div class="verse-arabic">وَلَقَدْ نَصَرَكُمُ اللَّهُ بِبَدْرٍ وَأَنتُمْ أَذِلَّةٌ ۖ فَاتَّقُوا اللَّهَ لَعَلَّكُمْ تَشْكُرُونَ</div>
+                            <div class="verse-translation">"And Allah had already given you victory at [the battle of] Badr, while you were few in number. Then fear Allah; perhaps you will be grateful."</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">625 CE</div>
+                        <h3>Battle of Uhud</h3>
+                        <p>A challenging battle where the Muslims faced setbacks but learned important lessons about discipline and obedience. The Prophet was injured, but the Muslims maintained their faith.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">627 CE</div>
+                        <h3>Battle of the Trench</h3>
+                        <p>Defended Madinah against a large coalition of tribes. The Muslims dug a trench around the city, which proved to be an effective defensive strategy. The siege ended without major fighting.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">628 CE</div>
+                        <h3>Treaty of Hudaybiyyah</h3>
+                        <p>Signed a peace treaty with the Quraysh, which initially seemed disadvantageous but later proved to be a strategic victory. This period allowed Islam to spread more widely.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">630 CE</div>
+                        <h3>Conquest of Makkah</h3>
+                        <p>Returned to Makkah in triumph, showing mercy and forgiveness to those who had persecuted him and his followers. Cleansed the Kaaba of idols and established it as a house of worship for Allah alone.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">632 CE</div>
+                        <h3>Farewell Pilgrimage</h3>
+                        <p>Performed his final Hajj and delivered his farewell sermon, emphasizing the equality of all people and the importance of following the Quran and his Sunnah. Passed away shortly after in Madinah.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prophet-section">
+                <h3>His Character</h3>
+                <p>Prophet Muhammad (peace be upon him) was known for his excellent character, mercy, and wisdom. His wife Aisha described him as "a walking Quran" - his life was the perfect embodiment of the Quran's teachings. He was known for his:</p>
+                <ul>
+                    <li>Honesty and trustworthiness (Al-Amin)</li>
+                    <li>Mercy and compassion</li>
+                    <li>Justice and fairness</li>
+                    <li>Humility and simplicity</li>
+                    <li>Patience and perseverance</li>
+                    <li>Generosity and kindness</li>
+                </ul>
+                
+                <div class="verse-container">
+                    <div class="verse-number">Surah Al-Qalam, Verse 4</div>
+                    <div class="verse-arabic">وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍ</div>
+                    <div class="verse-translation">"And indeed, you are of a great moral character."</div>
+                </div>
+            </div>
+
+            <div class="prophet-section">
+                <h3>His Family Life</h3>
+                <p>The Prophet's family life provides excellent examples of how to maintain strong family bonds and treat family members with kindness and respect. He was:</p>
+                <ul>
+                    <li>A loving husband to his wives</li>
+                    <li>A caring father to his children</li>
+                    <li>A respectful son-in-law</li>
+                    <li>A kind grandfather</li>
+                    <li>A supportive uncle</li>
+                </ul>
+            </div>
+
+            <div class="prophet-section">
+                <h3>His Leadership</h3>
+                <p>As a leader, the Prophet demonstrated exceptional qualities that continue to inspire leaders today:</p>
+                <ul>
+                    <li>Consultation (Shura) with his companions</li>
+                    <li>Justice and equality for all</li>
+                    <li>Mercy and forgiveness</li>
+                    <li>Strategic thinking and planning</li>
+                    <li>Leading by example</li>
+                </ul>
+            </div>
+
+            <div class="prophet-section">
+                <h3>His Legacy</h3>
+                <p>The Prophet's life and teachings continue to guide millions of Muslims worldwide. His Sunnah (way of life) provides practical examples of how to implement the Quran's teachings in daily life. His legacy includes:</p>
+                <ul>
+                    <li>The preservation and spread of the Quran</li>
+                    <li>The establishment of a just society</li>
+                    <li>The promotion of knowledge and education</li>
+                    <li>The emphasis on human rights and dignity</li>
+                    <li>The foundation of Islamic civilization</li>
+                </ul>
+                
+                <div class="verse-container">
+                    <div class="verse-number">Surah Al-Ahzab, Verse 21</div>
+                    <div class="verse-arabic">لَّقَدْ كَانَ لَكُمْ فِي رَسُولِ اللَّهِ أُسْوَةٌ حَسَنَةٌ لِّمَن كَانَ يَرْجُو اللَّهَ وَالْيَوْمَ الْآخِرَ وَذَكَرَ اللَّهَ كَثِيرًا</div>
+                    <div class="verse-translation">"There has certainly been for you in the Messenger of Allah an excellent pattern for anyone whose hope is in Allah and the Last Day and [who] remembers Allah often."</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check for saved theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            const themeToggle = document.querySelector('.theme-toggle');
+            const icon = themeToggle.querySelector('i');
+            const text = themeToggle.querySelector('span');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+            text.textContent = 'Light Mode';
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            
+            const themeToggle = document.querySelector('.theme-toggle');
+            const icon = themeToggle.querySelector('i');
+            const text = themeToggle.querySelector('span');
+            
+            if (newTheme === 'dark') {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                text.textContent = 'Light Mode';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                text.textContent = 'Dark Mode';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+    </script>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>Islamify</h3>
+                    <p>Your gateway to Islamic knowledge and spiritual growth. Providing authentic resources for Muslims worldwide.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="pillars.html">Five Pillars</a></li>
+                        <li><a href="quran.html">Quran</a></li>
+                        <li><a href="prophet.html">Prophet's Life</a></li>
+                        <li><a href="feelings.html">I'm Feeling</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> izhan.sheikh.18@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Karachi , North Karachi</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; <span id="year">2023</span> Islamify. All rights reserved.</p>
+                <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 

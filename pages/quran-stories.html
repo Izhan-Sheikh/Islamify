@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamify - Quran Stories</title>
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../favicon.svg">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+                /* Updated Footer Styles */
+                .site-footer {
+            background: #1e2a38;
+            color: #ffffff;
+            padding: 3rem 0 1rem;
+            margin-top: 3rem;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .site-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #182430;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #ffffff;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            position: relative;
+            padding-bottom: 0.8rem;
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: #4a6484;
+            border-radius: 3px;
+        }
+
+        .footer-section p {
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.85rem;
+            transition: transform 0.3s ease;
+        }
+
+        .footer-section ul li:hover {
+            transform: translateX(5px);
+        }
+
+        .footer-section ul li a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .footer-section ul li a::before {
+            content: '→';
+            margin-right: 8px;
+            font-size: 1.1rem;
+            color: #8ca5c2;
+            opacity: 0;
+            transform: translateX(-5px);
+            transition: all 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #ffffff;
+        }
+
+        .footer-section ul li a:hover::before {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .contact-info li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .contact-info li i {
+            color: #8ca5c2;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .contact-info li:hover i {
+            transform: scale(1.2);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #4a6484;
+            transition: width 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-links {
+                justify-content: center;
+            }
+            
+            .footer-section h3::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .footer-section {
+                text-align: center;
+            }
+            
+            .contact-info li {
+                justify-content: center;
+            }
+        }
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --title-color: #2c3e50;
+            --content-color: #666666;
+            --card-bg: #f8f9fa;
+            --border-color: #e0e0e0;
+            --icon-color: #3498db;
+            --hero-bg: #f0f2f5;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --title-color: #ffffff;
+            --content-color: #b3b3b3;
+            --card-bg: #2d2d2d;
+            --border-color: #404040;
+            --icon-color: #3498db;
+            --hero-bg: #2d2d2d;
+        }
+
+        .stories-page .hero-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 20vh;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--hero-bg) 0%, var(--card-bg) 100%);
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .stories-page .hero-content {
+            text-align: center;
+            max-width: 800px;
+            z-index: 2;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .stories-page .hero-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            color: var(--title-color);
+            line-height: 1.2;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stories-page .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--content-color);
+            margin-bottom: 0;
+            line-height: 1.5;
+            text-align: center;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .story-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            text-decoration: none;
+            color: inherit;
+            padding: 1.5rem;
+        }
+
+        .story-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .story-content h3 {
+            font-size: 1.5rem;
+            color: var(--title-color);
+            margin-bottom: 1rem;
+        }
+
+        .story-content p {
+            color: var(--content-color);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .story-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--content-color);
+            font-size: 0.9rem;
+        }
+
+        .theme-toggle {
+            background: var(--card-bg);
+            border: 2px solid var(--icon-color);
+            color: var(--text-color);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-left: 1rem;
+        }
+
+        .theme-toggle:hover {
+            background: var(--icon-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-toggle i {
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:hover i {
+            transform: rotate(15deg);
+        }
+
+        @media (max-width: 768px) {
+            .stories-page .hero-title {
+                font-size: 2rem;
+            }
+
+            .stories-page .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .stories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .theme-toggle {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Dark mode styles */
+        .dark-theme {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --content-color: #e0e0e0;
+            --card-bg: #2d2d2d;
+            --border-color: #404040;
+            --icon-color: #3498db;
+            --hover-bg: rgba(52, 152, 219, 0.2);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .dark-theme .navbar {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .dark-theme .nav-container h1 {
+            color: var(--text-color);
+        }
+
+        .dark-theme .nav-links a {
+            color: var(--text-color);
+        }
+
+        .dark-theme .nav-links a:hover {
+            color: var(--icon-color);
+        }
+
+        .dark-theme .hero-section {
+            background: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .dark-theme .hero-title,
+        .dark-theme .hero-subtitle {
+            color: var(--text-color);
+        }
+
+        .dark-theme .section {
+            background-color: var(--bg-color);
+        }
+
+        .dark-theme .story-card {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+        }
+
+        .dark-theme .story-card:hover {
+            background: var(--hover-bg);
+        }
+
+        .dark-theme .story-content h3 {
+            color: var(--text-color);
+        }
+
+        .dark-theme .story-content p {
+            color: var(--content-color);
+        }
+    </style>
+</head>
+<body class="stories-page">
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1>Islamify</h1>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="pillars.html">Five Pillars</a></li>
+                <li><a href="quran.html">Quran</a></li>
+                <li><a href="prophet.html">Prophet's Life</a></li>
+                <li><a href="feelings.html">I'm Feeling</a></li>
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </button>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h2 class="hero-title">Quran Stories</h2>
+                <p class="hero-subtitle">Discover the timeless stories from the Quran</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="stories-grid">
+                <a href="story-yusuf.html" class="story-card">
+                    <div class="story-content">
+                        <h3>The Story of Prophet Yusuf</h3>
+                        <p>A tale of patience, trust in Allah, and ultimate triumph through faith.</p>
+                        <div class="story-meta">
+                            <span>Surah Yusuf</span>
+                            <span>Verses 1-111</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="story-musa.html" class="story-card">
+                    <div class="story-content">
+                        <h3>The Story of Prophet Musa</h3>
+                        <p>The journey of Musa (Moses) from birth to prophethood and the liberation of Bani Israel.</p>
+                        <div class="story-meta">
+                            <span>Surah Al-Qasas</span>
+                            <span>Verses 1-88</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="story-ibrahim.html" class="story-card">
+                    <div class="story-content">
+                        <h3>The Story of Prophet Ibrahim</h3>
+                        <p>The story of Ibrahim's (Abraham) search for truth and his unwavering faith in Allah.</p>
+                        <div class="story-meta">
+                            <span>Surah Al-Anbiya</span>
+                            <span>Verses 51-73</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="story-nuh.html" class="story-card">
+                    <div class="story-content">
+                        <h3>The Story of Prophet Nuh</h3>
+                        <p>The tale of Nuh (Noah) and his ark, a story of patience and divine guidance.</p>
+                        <div class="story-meta">
+                            <span>Surah Nuh</span>
+                            <span>Verses 1-28</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="story-maryam.html" class="story-card">
+                    <div class="story-content">
+                        <h3>The Story of Maryam</h3>
+                        <p>The miraculous story of Maryam (Mary) and the birth of Prophet Isa (Jesus).</p>
+                        <div class="story-meta">
+                            <span>Surah Maryam</span>
+                            <span>Verses 1-98</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="story-luqman.html" class="story-card">
+                    <div class="story-content">
+                        <h3>The Story of Luqman</h3>
+                        <p>The wisdom of Luqman and his advice to his son about faith and good character.</p>
+                        <div class="story-meta">
+                            <span>Surah Luqman</span>
+                            <span>Verses 12-19</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Check for saved theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-theme');
+            const themeToggle = document.querySelector('.theme-toggle');
+            const icon = themeToggle.querySelector('i');
+            const text = themeToggle.querySelector('span');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+            text.textContent = 'Light Mode';
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            const themeToggle = document.querySelector('.theme-toggle');
+            const icon = themeToggle.querySelector('i');
+            const text = themeToggle.querySelector('span');
+            
+            if (document.body.classList.contains('dark-theme')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                text.textContent = 'Light Mode';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                text.textContent = 'Dark Mode';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        function openStory(storyId) {
+            const storyContent = {
+                yusuf: {
+                    title: "The Story of Prophet Yusuf",
+                    verses: [
+                        {
+                            arabic: "نَحْنُ نَقُصُّ عَلَيْكَ أَحْسَنَ الْقَصَصِ بِمَا أَوْحَيْنَا إِلَيْكَ هَٰذَا الْقُرْآنَ وَإِن كُنتَ مِن قَبْلِهِ لَمِنَ الْغَافِلِينَ",
+                            translation: "We relate to you, [O Muhammad], the best of stories in what We have revealed to you of this Qur'an although you were, before it, among the unaware."
+                        }
+                    ],
+                    description: "The story of Prophet Yusuf (Joseph) is one of the most detailed narratives in the Quran, teaching lessons of patience, trust in Allah, and forgiveness."
+                },
+                musa: {
+                    title: "The Story of Prophet Musa",
+                    verses: [
+                        {
+                            arabic: "نَتْلُو عَلَيْكَ مِن نَّبَإِ مُوسَىٰ وَفِرْعَوْنَ بِالْحَقِّ لِقَوْمٍ يُؤْمِنُونَ",
+                            translation: "We recite to you from the news of Moses and Pharaoh in truth for a people who believe."
+                        }
+                    ],
+                    description: "The story of Prophet Musa (Moses) and his confrontation with Pharaoh, showing the power of faith and divine intervention."
+                },
+                ibrahim: {
+                    title: "The Story of Prophet Ibrahim",
+                    verses: [
+                        {
+                            arabic: "فَلَمَّا بَلَغَ مَعَهُ السَّعْيَ قَالَ يَا بُنَيَّ إِنِّي أَرَىٰ فِي الْمَنَامِ أَنِّي أَذْبَحُكَ فَانظُرْ مَاذَا تَرَىٰ",
+                            translation: "And when he reached with him [the age of] exertion, he said, 'O my son, indeed I have seen in a dream that I [must] sacrifice you, so see what you think.'"
+                        }
+                    ],
+                    description: "The story of Prophet Ibrahim (Abraham) and his unwavering faith in Allah, including the test of sacrificing his son."
+                },
+                nuh: {
+                    title: "The Story of Prophet Nuh",
+                    verses: [
+                        {
+                            arabic: "إِنَّا أَرْسَلْنَا نُوحًا إِلَىٰ قَوْمِهِ أَنْ أَنذِرْ قَوْمَكَ مِن قَبْلِ أَن يَأْتِيَهُمْ عَذَابٌ أَلِيمٌ",
+                            translation: "Indeed, We sent Noah to his people, [saying], 'Warn your people before there comes to them a painful punishment.'"
+                        }
+                    ],
+                    description: "The story of Prophet Nuh (Noah) and his mission to save humanity from the great flood."
+                },
+                maryam: {
+                    title: "The Story of Maryam",
+                    verses: [
+                        {
+                            arabic: "وَاذْكُرْ فِي الْكِتَابِ مَرْيَمَ إِذِ انتَبَذَتْ مِنْ أَهْلِهَا مَكَانًا شَرْقِيًّا",
+                            translation: "And mention, [O Muhammad], in the Book [the story of] Mary, when she withdrew from her family to a place toward the east."
+                        }
+                    ],
+                    description: "The miraculous story of Maryam (Mary) and the birth of Prophet Isa (Jesus)."
+                },
+                luqman: {
+                    title: "The Story of Luqman",
+                    verses: [
+                        {
+                            arabic: "وَلَقَدْ آتَيْنَا لُقْمَانَ الْحِكْمَةَ أَنِ اشْكُرْ لِلَّهِ",
+                            translation: "And We had certainly given Luqman wisdom [and said], 'Be grateful to Allah.'"
+                        }
+                    ],
+                    description: "The wisdom of Luqman and his valuable advice to his son."
+                }
+            };
+
+            const story = storyContent[storyId];
+            if (!story) return;
+
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <span class="close-modal" onclick="this.parentElement.parentElement.remove()">&times;</span>
+                    <h2>${story.title}</h2>
+                    <p>${story.description}</p>
+                    <div class="verses-container">
+                        ${story.verses.map(verse => `
+                            <div class="verse">
+                                <div class="arabic-text">${verse.arabic}</div>
+                                <div class="translation">${verse.translation}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            modal.style.display = 'block';
+
+            // Close modal when clicking outside
+            window.onclick = function(event) {
+                if (event.target === modal) {
+                    modal.remove();
+                }
+            };
+        }
+    </script>
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>Islamify</h3>
+                    <p>Your gateway to Islamic knowledge and spiritual growth. Providing authentic resources for Muslims worldwide.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="pages/pillars.html">Five Pillars</a></li>
+                        <li><a href="pages/quran.html">Quran</a></li>
+                        <li><a href="pages/prophet.html">Prophet's Life</a></li>
+                        <li><a href="pages/feelings.html">I'm Feeling</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> izhan.sheikh.18@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Karachi , North Karachi</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; <span id="year"></span> Islamify. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 

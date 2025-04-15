@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamify - Five Pillars of Islam</title>
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="../favicon.svg">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #f5f5f5;
+            --text-color: #333;
+            --card-bg: white;
+            --card-shadow: rgba(0,0,0,0.1);
+            --title-color: #2c3e50;
+            --content-color: #666;
+            --icon-color: #3498db;
+            --arabic-bg: #f8f9fa;
+            --timing-bg: #f0f7ff;
+            --requirements-bg: #fff8e1;
+            --navbar-bg: #2c3e50;
+            --navbar-text: white;
+            --theme-toggle-bg: #3498db;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #e0e0e0;
+            --card-bg: #2d2d2d;
+            --card-shadow: rgba(0,0,0,0.3);
+            --title-color: #e0e0e0;
+            --content-color: #b0b0b0;
+            --icon-color: #4a9eff;
+            --arabic-bg: #333333;
+            --timing-bg: #1a2a3a;
+            --requirements-bg: #2a2a1a;
+            --navbar-bg: #1a1a1a;
+            --navbar-text: #e0e0e0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .navbar {
+            background-color: var(--navbar-bg);
+        }
+
+        .navbar h1 {
+            color: var(--navbar-text);
+        }
+
+        .nav-links a {
+            color: var(--navbar-text);
+        }
+
+        .theme-toggle {
+            background: var(--theme-toggle-bg);
+            border: 2px solid var(--navbar-text);
+            color: var(--navbar-text);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-left: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--navbar-text);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+
+        .theme-toggle:hover::before {
+            opacity: 0.1;
+        }
+
+        .theme-toggle i {
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .theme-toggle:hover i {
+            transform: scale(1.1);
+        }
+
+        .theme-toggle span {
+            position: relative;
+            z-index: 1;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .theme-toggle:hover span {
+            transform: translateX(2px);
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.95);
+        }
+
+        /* Dark mode specific styles */
+        [data-theme="dark"] .theme-toggle {
+            border-color: var(--navbar-text);
+        }
+
+        [data-theme="dark"] .theme-toggle::before {
+            background: var(--navbar-text);
+        }
+
+        .pillar-section {
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .pillar-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pillar-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .pillar-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--icon-color), #4a9eff);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .pillar-card:hover::before {
+            opacity: 1;
+        }
+
+        .pillar-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .pillar-icon {
+            font-size: 3rem;
+            color: var(--icon-color);
+            margin-right: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .pillar-card:hover .pillar-icon {
+            transform: scale(1.1);
+        }
+
+        .pillar-title {
+            color: var(--title-color);
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .pillar-content {
+            color: var(--content-color);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .pillar-content h3 {
+            color: var(--title-color);
+            margin: 2rem 0 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .pillar-content h3::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 70%;
+            background: var(--icon-color);
+            border-radius: 2px;
+        }
+
+        .pillar-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .pillar-content ul {
+            margin: 1.5rem 0;
+            padding-left: 2rem;
+            list-style-type: none;
+        }
+
+        .pillar-content li {
+            margin-bottom: 1rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .pillar-content li::before {
+            content: '•';
+            color: var(--icon-color);
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0;
+            top: -2px;
+        }
+
+        .arabic-text {
+            direction: rtl;
+            font-size: 1.4rem;
+            line-height: 2.2;
+            text-align: center;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background-color: var(--arabic-bg);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .arabic-text:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .reference {
+            font-style: italic;
+            color: var(--content-color);
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 8px;
+            border-left: 3px solid var(--icon-color);
+        }
+
+        .timing-info {
+            background-color: var(--timing-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .timing-info:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .requirements {
+            background-color: var(--requirements-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .requirements:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Dark theme adjustments */
+        [data-theme="dark"] .pillar-card {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="dark"] .arabic-text,
+        [data-theme="dark"] .timing-info,
+        [data-theme="dark"] .requirements {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="dark"] .reference {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .pillar-card {
+                padding: 1.5rem;
+            }
+
+            .pillar-title {
+                font-size: 1.8rem;
+            }
+
+            .pillar-content {
+                font-size: 1rem;
+            }
+
+            .arabic-text {
+                font-size: 1.2rem;
+                padding: 1rem;
+            }
+        }
+
+        .pillars-page .hero-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 20vh;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--hero-bg) 0%, var(--card-bg) 100%);
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .pillars-page .hero-content {
+            text-align: center;
+            max-width: 800px;
+            z-index: 2;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .pillars-page .hero-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            color: var(--title-color);
+            line-height: 1.2;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .pillars-page .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--content-color);
+            margin-bottom: 0;
+            line-height: 1.5;
+            text-align: center;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body class="pillars-page">
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1>Islamify</h1>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="pillars.html" class="active">Five Pillars</a></li>
+                <li><a href="quran.html">Quran</a></li>
+                <li><a href="prophet.html">Prophet's Life</a></li>
+                <li><a href="feelings.html">I'm Feeling</a></li>
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </button>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="hero-section">
+            <div class="hero-content fade-in">
+                <h2 class="hero-title">Five Pillars of Islam</h2>
+                <p class="hero-subtitle">The foundation of Muslim life and faith</p>
+            </div>
+        </section>
+
+        <section class="pillar-section">
+            <div class="pillar-card fade-in">
+                <div class="pillar-header">
+                    <i class="fas fa-hand-holding-heart pillar-icon"></i>
+                    <h2 class="pillar-title">1. Shahada (Declaration of Faith)</h2>
+                </div>
+                <div class="pillar-content">
+                    <p>The Shahada is the first and most important pillar of Islam. It is the declaration of faith that every Muslim must make to enter the fold of Islam.</p>
+                    
+                    <div class="arabic-text">
+                        أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا رَسُولُ اللَّهِ
+                    </div>
+                    <p>Translation: "I bear witness that there is no god but Allah, and I bear witness that Muhammad is the Messenger of Allah."</p>
+
+                    <h3>Importance</h3>
+                    <ul>
+                        <li>It is the foundation of Islamic belief</li>
+                        <li>It distinguishes a Muslim from a non-Muslim</li>
+                        <li>It must be said with sincerity and understanding</li>
+                        <li>It should be recited in Arabic</li>
+                    </ul>
+
+                    <h3>Conditions of Shahada</h3>
+                    <ul>
+                        <li>Knowledge (Ilm): Understanding its meaning</li>
+                        <li>Certainty (Yaqeen): Being certain of its truth</li>
+                        <li>Sincerity (Ikhlas): Saying it purely for Allah</li>
+                        <li>Truthfulness (Sidq): Being truthful in saying it</li>
+                        <li>Love (Mahabbah): Loving Allah and His Messenger</li>
+                        <li>Acceptance (Qubool): Accepting its requirements</li>
+                        <li>Submission (Inqiyad): Submitting to its commands</li>
+                    </ul>
+
+                    <div class="reference">
+                        Reference: Sahih al-Bukhari 8, Sahih Muslim 19
+                    </div>
+                </div>
+            </div>
+
+            <div class="pillar-card fade-in">
+                <div class="pillar-header">
+                    <i class="fas fa-pray pillar-icon"></i>
+                    <h2 class="pillar-title">2. Salah (Prayer)</h2>
+                </div>
+                <div class="pillar-content">
+                    <p>Salah is the second pillar of Islam and is the daily prayer that Muslims perform five times a day.</p>
+
+                    <h3>Timing of Prayers</h3>
+                    <div class="timing-info">
+                        <ul>
+                            <li>Fajr: Before sunrise</li>
+                            <li>Dhuhr: After midday</li>
+                            <li>Asr: Afternoon</li>
+                            <li>Maghrib: After sunset</li>
+                            <li>Isha: Night</li>
+                        </ul>
+                    </div>
+
+                    <h3>Importance</h3>
+                    <ul>
+                        <li>Direct connection with Allah</li>
+                        <li>Purification of the soul</li>
+                        <li>Discipline and time management</li>
+                        <li>Unity among Muslims</li>
+                    </ul>
+
+                    <h3>Requirements for Prayer</h3>
+                    <div class="requirements">
+                        <ul>
+                            <li>Cleanliness (Wudu)</li>
+                            <li>Clean clothes and place</li>
+                            <li>Facing the Qibla</li>
+                            <li>Proper intention</li>
+                            <li>Covering the awrah</li>
+                        </ul>
+                    </div>
+
+                    <h3>Steps of Prayer</h3>
+                    <ol>
+                        <li>Takbir (Opening)</li>
+                        <li>Qiyam (Standing)</li>
+                        <li>Ruku (Bowing)</li>
+                        <li>Sujood (Prostration)</li>
+                        <li>Tashahhud (Sitting)</li>
+                        <li>Tasleem (Ending)</li>
+                    </ol>
+
+                    <div class="reference">
+                        Reference: Quran 2:238, Sahih al-Bukhari 8
+                    </div>
+                </div>
+            </div>
+
+            <div class="pillar-card fade-in">
+                <div class="pillar-header">
+                    <i class="fas fa-hand-holding-usd pillar-icon"></i>
+                    <h2 class="pillar-title">3. Zakat (Charity)</h2>
+                </div>
+                <div class="pillar-content">
+                    <p>Zakat is the third pillar of Islam and is the obligatory charity that Muslims must give to those in need.</p>
+
+                    <h3>Conditions for Zakat</h3>
+                    <div class="requirements">
+                        <ul>
+                            <li>Being Muslim</li>
+                            <li>Being free</li>
+                            <li>Owning the Nisab (minimum amount)</li>
+                            <li>Complete ownership</li>
+                            <li>Passing of one lunar year</li>
+                        </ul>
+                    </div>
+
+                    <h3>Nisab (Minimum Amount)</h3>
+                    <ul>
+                        <li>Gold: 85 grams</li>
+                        <li>Silver: 595 grams</li>
+                        <li>Cash: Equivalent to above</li>
+                        <li>Rate: 2.5% of total wealth</li>
+                    </ul>
+
+                    <h3>Recipients of Zakat</h3>
+                    <ul>
+                        <li>The poor</li>
+                        <li>The needy</li>
+                        <li>Those employed to collect Zakat</li>
+                        <li>Those whose hearts are to be reconciled</li>
+                        <li>To free slaves</li>
+                        <li>Those in debt</li>
+                        <li>In the cause of Allah</li>
+                        <li>Wayfarers</li>
+                    </ul>
+
+                    <div class="reference">
+                        Reference: Quran 9:60, Sahih al-Bukhari 1395
+                    </div>
+                </div>
+            </div>
+
+            <div class="pillar-card fade-in">
+                <div class="pillar-header">
+                    <i class="fas fa-moon pillar-icon"></i>
+                    <h2 class="pillar-title">4. Sawm (Fasting)</h2>
+                </div>
+                <div class="pillar-content">
+                    <p>Sawm is the fourth pillar of Islam and refers to fasting during the month of Ramadan.</p>
+
+                    <h3>Types of Fasting</h3>
+                    <ul>
+                        <li>Obligatory (Ramadan)</li>
+                        <li>Recommended (Mondays and Thursdays)</li>
+                        <li>Prohibited (Eid days)</li>
+                    </ul>
+
+                    <h3>Requirements for Fasting</h3>
+                    <div class="requirements">
+                        <ul>
+                            <li>Intention</li>
+                            <li>Abstaining from food and drink</li>
+                            <li>Abstaining from marital relations</li>
+                            <li>From dawn to sunset</li>
+                        </ul>
+                    </div>
+
+                    <h3>Who is Exempt?</h3>
+                    <ul>
+                        <li>Children (before puberty)</li>
+                        <li>The elderly</li>
+                        <li>The sick</li>
+                        <li>Travelers</li>
+                        <li>Pregnant women</li>
+                        <li>Nursing mothers</li>
+                    </ul>
+
+                    <h3>Benefits of Fasting</h3>
+                    <ul>
+                        <li>Spiritual purification</li>
+                        <li>Self-discipline</li>
+                        <li>Empathy for the poor</li>
+                        <li>Health benefits</li>
+                        <li>Increased taqwa (God-consciousness)</li>
+                    </ul>
+
+                    <div class="reference">
+                        Reference: Quran 2:183-185, Sahih al-Bukhari 1900
+                    </div>
+                </div>
+            </div>
+
+            <div class="pillar-card fade-in">
+                <div class="pillar-header">
+                    <i class="fas fa-kaaba pillar-icon"></i>
+                    <h2 class="pillar-title">5. Hajj (Pilgrimage)</h2>
+                </div>
+                <div class="pillar-content">
+                    <p>Hajj is the fifth pillar of Islam and is the pilgrimage to Makkah that every able Muslim must perform at least once in their lifetime.</p>
+
+                    <h3>Conditions for Hajj</h3>
+                    <div class="requirements">
+                        <ul>
+                            <li>Being Muslim</li>
+                            <li>Being of sound mind</li>
+                            <li>Being an adult</li>
+                            <li>Being financially able</li>
+                            <li>Being physically able</li>
+                            <li>Having a mahram (for women)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Main Rituals</h3>
+                    <ol>
+                        <li>Ihram (Entering the state of pilgrimage)</li>
+                        <li>Tawaf (Circling the Kaaba)</li>
+                        <li>Sa'i (Walking between Safa and Marwa)</li>
+                        <li>Standing at Arafat</li>
+                        <li>Stoning the Jamarat</li>
+                        <li>Sacrifice</li>
+                        <li>Shaving/Cutting hair</li>
+                    </ol>
+
+                    <h3>Benefits of Hajj</h3>
+                    <ul>
+                        <li>Complete forgiveness of sins</li>
+                        <li>Spiritual renewal</li>
+                        <li>Unity of Muslims</li>
+                        <li>Following the footsteps of Prophet Ibrahim</li>
+                        <li>Increased taqwa</li>
+                    </ul>
+
+                    <div class="reference">
+                        Reference: Quran 3:97, Sahih al-Bukhari 1521
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeToggle = document.querySelector('.theme-toggle');
+            const icon = themeToggle.querySelector('i');
+            const text = themeToggle.querySelector('span');
+            
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                text.textContent = 'Dark Mode';
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                text.textContent = 'Light Mode';
+            }
+        }
+
+        // Check for saved theme preference
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                const themeToggle = document.querySelector('.theme-toggle');
+                const icon = themeToggle.querySelector('i');
+                const text = themeToggle.querySelector('span');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                text.textContent = 'Light Mode';
+            }
+        });
+    </script>
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>Islamify</h3>
+                    <p>Your gateway to Islamic knowledge and spiritual growth. Providing authentic resources for Muslims worldwide.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="pillars.html">Five Pillars</a></li>
+                        <li><a href="quran.html">Quran</a></li>
+                        <li><a href="prophet.html">Prophet's Life</a></li>
+                        <li><a href="feelings.html">I'm Feeling</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> izhan.sheikh.18@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Karachi , North Karachi</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; <span id="year">2023</span> Islamify. All rights reserved.</p>
+                <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        /* Updated Footer Styles */
+        .site-footer {
+            background: #1e2a38;
+            color: #ffffff;
+            padding: 3rem 0 1rem;
+            margin-top: 3rem;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .site-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #182430;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #ffffff;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            position: relative;
+            padding-bottom: 0.8rem;
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: #4a6484;
+            border-radius: 3px;
+        }
+
+        .footer-section p {
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.85rem;
+            transition: transform 0.3s ease;
+        }
+
+        .footer-section ul li:hover {
+            transform: translateX(5px);
+        }
+
+        .footer-section ul li a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .footer-section ul li a::before {
+            content: '→';
+            margin-right: 8px;
+            font-size: 1.1rem;
+            color: #8ca5c2;
+            opacity: 0;
+            transform: translateX(-5px);
+            transition: all 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #ffffff;
+        }
+
+        .footer-section ul li a:hover::before {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .contact-info li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .contact-info li i {
+            color: #8ca5c2;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .contact-info li:hover i {
+            transform: scale(1.2);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #4a6484;
+            transition: width 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-links {
+                justify-content: center;
+            }
+            
+            .footer-section h3::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .footer-section {
+                text-align: center;
+            }
+            
+            .contact-info li {
+                justify-content: center;
+            }
+        }
+    </style>
+</body>
+</html> 
